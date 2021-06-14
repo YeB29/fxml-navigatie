@@ -11,9 +11,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import Model.Login;
 
 
@@ -35,22 +41,26 @@ public class LoginController implements Initializable {
     @FXML
     private AnchorPane rootPane;
 
+
     public void login(MouseEvent mouseEvent) throws IOException {
         checkLogin();
     }
-    public void checkLogin() throws IOException{
-         if(usernameField.getText().equals("Younes") && passwordField.getText().equals("123")) {
-             AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/HomeScreen.fxml"));
-             rootPane.getChildren().setAll(pane);
-         }
-             else if(usernameField.getText().isEmpty() && passwordField.getText().isEmpty()) {
-                 wrongLogin.setText("Please enter your data.");
-             }
-             else {
-             wrongLogin.setText("Wrong username or password.");
-         }
+    public void checkLogin() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("user.txt"));
+        String line = "";
 
-         }
+            while (usernameField.getText().equals(br.readLine()) && passwordField.getText().equals(br.readLine())) {
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/HomeScreen.fxml"));
+                rootPane.getChildren().setAll(pane);
+
+                if (usernameField.getText().isEmpty() && passwordField.getText().isEmpty()) {
+                    wrongLogin.setText("Please enter your data.");
+                } else {
+                    wrongLogin.setText("Wrong username or password.");
+                }
+            }
+        br.close();
+    }
 
 
     public void signUp(MouseEvent mouseEvent) throws IOException {
@@ -65,6 +75,6 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Login login = new Login(usernameField.getText().toString(),passwordField.getText().toString());
+
     }
 }

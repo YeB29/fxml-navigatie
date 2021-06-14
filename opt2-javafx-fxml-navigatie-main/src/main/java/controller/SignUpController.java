@@ -47,13 +47,13 @@ public class SignUpController implements Initializable {
             PrintWriter pw = new PrintWriter(fw);
             LocalDate date = birth.getValue();
 
+            pw.println( username.getText());
+            pw.println( password.getText());
             pw.println("Name: " + name.getText());
-            pw.println("Username: " + username.getText());
             if(male.isSelected()){
                 pw.println(male.getText());}
             else if(female.isSelected()){
                 pw.println(female.getText());}
-            pw.println("Password: " + password.getText());
             pw.println("E-mailadress: " + emailadress.getText());
             pw.println("Date of birth: " + date.toString());
             pw.println("---------");
